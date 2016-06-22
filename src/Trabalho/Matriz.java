@@ -50,7 +50,7 @@ public class Matriz {
             colunaAtual.setAbaixo(nova);
             nova.setAbaixo(colunaAtual);
         } else {
-            while ((proxElementoColuna.getLinha() < linha) && (proxElementoColuna.getColuna() != -1)){
+            while ((proxElementoColuna.getLinha() < linha) && (proxElementoColuna.getLinha() != -1)){
                 colunaAtual = proxElementoColuna;
                 proxElementoColuna = proxElementoColuna.getAbaixo();
             }
@@ -63,7 +63,7 @@ public class Matriz {
             linhaAtual.setDireita(nova);
             nova.setDireita(linhaAtual);
         } else {
-            while ((proxElementoLinha.getColuna() < coluna) && (proxElementoLinha.getLinha() != -1)){
+            while ((proxElementoLinha.getColuna() < coluna) && (proxElementoLinha.getColuna() != -1)){
                 linhaAtual = proxElementoLinha;
                 proxElementoLinha = proxElementoLinha.getDireita();
             }
@@ -100,10 +100,22 @@ public class Matriz {
         Matriz teste = new Matriz();
 
         teste.criarMatriz(4, 4);
-        teste.matrizSetElemento(1,1,1);
-        teste.matrizSetElemento(2,2,2);
-        teste.matrizSetElemento(3,3,3);
-        teste.matrizSetElemento(4,4,4);
+        teste.matrizSetElemento(1,2,12);
+        teste.matrizSetElemento(1,1,11);
+        teste.matrizSetElemento(4,2,42);
+        teste.matrizSetElemento(2,2,22);
+        teste.matrizSetElemento(1,4,14);
+        teste.matrizSetElemento(2,1,21);
+        teste.matrizSetElemento(1,3,13);
+        teste.matrizSetElemento(3,3,33);
+        teste.matrizSetElemento(4,1,41);
+        teste.matrizSetElemento(2,3,23);
+        teste.matrizSetElemento(2,4,24);
+        teste.matrizSetElemento(3,2,32);
+        teste.matrizSetElemento(3,4,34);
+        teste.matrizSetElemento(4,3,43);
+        teste.matrizSetElemento(3,1,31);
+        teste.matrizSetElemento(4,4,44);
 
 //        System.out.println(teste.matrizGetElemento(2,2));
 //        System.out.println(teste.matrizGetElemento(2,3));
