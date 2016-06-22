@@ -29,9 +29,9 @@ public class Matriz {
 
     private void matrizSetElemento (int linha, int coluna, float elemento){
         Celula colunaAtual = cabeca;
-        Celula proximaColuna = null;
+        Celula proxElementoColuna = null;
         Celula linhaAtual = cabeca;
-        Celula proximaLinha = null;
+        Celula proxElementoLinha = null;
         Celula nova = new Celula(linha, coluna, elemento, null, null);
 
         while (colunaAtual.getColuna() != coluna){
@@ -41,31 +41,33 @@ public class Matriz {
             linhaAtual = linhaAtual.getAbaixo();
         }
 
-        proximaColuna = colunaAtual.getAbaixo();
-        proximaLinha = linhaAtual.getDireita();
+        proxElementoColuna = colunaAtual.getAbaixo();
+        proxElementoLinha = linhaAtual.getDireita();
 
-        if (colunaAtual.getAbaixo().equals(colunaAtual)){
+        //Verifica se a coluna atual está vazia
+        if (colunaAtual.equals(proxElementoColuna)){
             colunaAtual.setAbaixo(nova);
             nova.setAbaixo(colunaAtual);
         } else {
-            while ((proximaColuna.getColuna() < coluna) && (proximaColuna.getColuna() != -1)){
-                colunaAtual = proximaColuna;
-                proximaColuna = proximaColuna.getAbaixo();
+            while ((proxElementoColuna.getColuna() < coluna) && (proxElementoColuna.getColuna() != -1)){
+                colunaAtual = proxElementoColuna;
+                proxElementoColuna = proxElementoColuna.getAbaixo();
             }
             colunaAtual.setAbaixo(nova);
-            nova.setAbaixo(proximaColuna);
+            nova.setAbaixo(proxElementoColuna);
         }
 
-        if (linhaAtual.getDireita().equals(linhaAtual)){
+        //Verifica se a linha atual está vazia
+        if (linhaAtual.equals(proxElementoLinha)){
             linhaAtual.setDireita(nova);
             nova.setDireita(linhaAtual);
         } else {
-            while ((proximaLinha.getLinha() < linha) && (proximaLinha.getLinha() != -1)){
-                linhaAtual = proximaLinha;
-                proximaLinha = proximaLinha.getDireita();
+            while ((proxElementoLinha.getLinha() < linha) && (proxElementoLinha.getLinha() != -1)){
+                linhaAtual = proxElementoLinha;
+                proxElementoLinha = proxElementoLinha.getDireita();
             }
             linhaAtual.setDireita(nova);
-            nova.setDireita(proximaLinha);
+            nova.setDireita(proxElementoLinha);
         }
     }
 
@@ -94,11 +96,22 @@ public class Matriz {
         Matriz teste = new Matriz();
 
         teste.criarMatriz(4, 4);
-        teste.matrizSetElemento(2,2,2);
-        System.out.println();
-        teste.matrizSetElemento(1,2,3);
+//        teste.matrizSetElemento(1,2,3);
+//        teste.matrizSetElemento(2,1,4);
+//        teste.matrizSetElemento(2,2,2);
+//        teste.matrizSetElemento(4,2,5);
+//        teste.matrizSetElemento(2,3,7);
+        teste.matrizSetElemento(3,4,6);
+//        teste.matrizSetElemento(4,3,1);
+//        teste.matrizSetElemento(3,3,2);
 
-        System.out.println(teste.matrizGetElemento(1,2));
-        System.out.println(teste.matrizGetElemento(2,2));
+//        System.out.println(teste.matrizGetElemento(2,3));
+//        System.out.println(teste.matrizGetElemento(4,3));
+//        System.out.println(teste.matrizGetElemento(3,3));
+//        System.out.println(teste.matrizGetElemento(1,2));
+//        System.out.println(teste.matrizGetElemento(2,2));
+//        System.out.println(teste.matrizGetElemento(2,1));
+//        System.out.println(teste.matrizGetElemento(4,2));
+        System.out.println(teste.matrizGetElemento(3,4));
     }
 }
