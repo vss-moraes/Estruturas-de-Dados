@@ -86,7 +86,9 @@ public class Matriz {
         while (!atual.equals(proxima)){
             if (proxima.getLinha() == linha)
                 return proxima.getInfo();
-            else {
+            else if (proxima.getLinha() == -1){
+                return 0;
+            } else {
                 atual = proxima;
                 proxima = proxima.getAbaixo();
             }
@@ -98,14 +100,10 @@ public class Matriz {
         Matriz teste = new Matriz();
 
         teste.criarMatriz(4, 4);
-//        teste.matrizSetElemento(1,2,3);
-//        teste.matrizSetElemento(2,1,4);
-        teste.matrizSetElemento(4,4,2);
-//        teste.matrizSetElemento(4,2,5);
-//        teste.matrizSetElemento(2,3,7);
-        teste.matrizSetElemento(3,4,6);
-//        teste.matrizSetElemento(4,3,1);
-        teste.matrizSetElemento(3,3,5);
+        teste.matrizSetElemento(1,1,1);
+        teste.matrizSetElemento(2,2,2);
+        teste.matrizSetElemento(3,3,3);
+        teste.matrizSetElemento(4,4,4);
 
 //        System.out.println(teste.matrizGetElemento(2,2));
 //        System.out.println(teste.matrizGetElemento(2,3));
