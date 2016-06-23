@@ -1,5 +1,3 @@
-package Trabalho;
-
 public class Matriz {
 
     private Celula cabeca;
@@ -94,6 +92,46 @@ public class Matriz {
             }
         }
         return 0;
+    }
+   private void matriz_print2(){
+        Celula cabecaMat = this.cabeca;
+        Celula atualLinha = cabecaMat;
+        Celula atualColuna = null;
+        Celula proximaLinha = null;
+        Celula proximaColuna = null;
+
+        while(atualLinha.getColuna() <= totalColunas){
+
+            atualLinha = atualLinha.getDireita();
+
+            proximaColuna = atualLinha.getAbaixo();
+
+            System.out.println(atualLinha.getInfo() + "info");
+
+            atualColuna = atualLinha;
+
+            proximaColuna = atualColuna.getAbaixo();
+
+            while(!atualLinha.equals(proximaColuna)){    
+
+                System.out.print(proximaColuna.getInfo() + "info");
+
+                atualColuna = atualColuna.getAbaixo();
+
+                proximaColuna = atualColuna.getAbaixo();
+            }
+        }            
+    }
+
+    public void matriz_print() {
+        System.out.println(totalColunas + " " + totalLinhas);
+        for (int i = 1; i <= totalLinhas; i++) {
+            for (int j = 1; j <= totalColunas; j++) {
+                if (this.matrizGetElemento(i, j) != 0) {
+                    System.out.println(i + " " + j + " " + this.matrizGetElemento(i, j));
+                }
+            }
+        }
     }
 
     public static void main(String[] args){
