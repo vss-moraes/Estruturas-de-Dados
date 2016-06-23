@@ -1,6 +1,8 @@
 public class Matriz {
 
     private Celula cabeca;
+    private int totalColunas;
+    private int totalLinhas;
 
     private Matriz(){
         cabeca = new Celula(-1, -1, -1, null, null);
@@ -8,6 +10,8 @@ public class Matriz {
 
     private void criarMatriz(int linhas, int colunas){
         Celula atual = this.cabeca;
+        totalLinhas = linhas;
+        totalColunas = colunas;
 
         for (int i = 1; i <= linhas; i++) {
             atual.setAbaixo(new Celula(i, -1, 0, null, null));
@@ -68,7 +72,7 @@ public class Matriz {
             linhaAtual.setDireita(nova);
             nova.setDireita(proxElementoLinha);
         }
-        System.out.println("Elemento inserido com sucesso.");
+        // System.out.println("Elemento inserido com sucesso.");
     }
 
     private float matrizGetElemento (int linha, int coluna){
@@ -100,13 +104,12 @@ public class Matriz {
         Celula proximaLinha = null;
         Celula proximaColuna = null;
 
-        while(atualLinha.getColuna() <= totalColunas){
+        System.out.println(totalLinhas + " " + totalColunas);
+        while(atualLinha.getColuna() < totalColunas){
 
             atualLinha = atualLinha.getDireita();
 
             proximaColuna = atualLinha.getAbaixo();
-
-            System.out.println(atualLinha.getInfo() + "info");
 
             atualColuna = atualLinha;
 
@@ -114,7 +117,7 @@ public class Matriz {
 
             while(!atualLinha.equals(proximaColuna)){    
 
-                System.out.print(proximaColuna.getInfo() + "info");
+                System.out.println(proximaColuna.getLinha() + " " + proximaColuna.getColuna() + " " + proximaColuna.getInfo());
 
                 atualColuna = atualColuna.getAbaixo();
 
@@ -155,15 +158,16 @@ public class Matriz {
         teste.matrizSetElemento(3,1,31);
         teste.matrizSetElemento(4,4,44);
 
+        teste.matriz_print2();
 //        System.out.println(teste.matrizGetElemento(2,2));
 //        System.out.println(teste.matrizGetElemento(2,3));
 //        System.out.println(teste.matrizGetElemento(4,3));
-        System.out.println(teste.matrizGetElemento(3,3));
+        // System.out.println(teste.matrizGetElemento(3,3));
 //        System.out.println(teste.matrizGetElemento(1,2));
 //        System.out.println(teste.matrizGetElemento(2,2));
 //        System.out.println(teste.matrizGetElemento(2,1));
 //        System.out.println(teste.matrizGetElemento(4,2));
-        System.out.println(teste.matrizGetElemento(3,4));
-        System.out.println(teste.matrizGetElemento(4,4));
+        // System.out.println(teste.matrizGetElemento(3,4));
+        // System.out.println(teste.matrizGetElemento(4,4));
     }
 }

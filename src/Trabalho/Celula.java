@@ -1,5 +1,3 @@
-package Trabalho;
-
 class Celula {
     private int linha;
     private int coluna;
