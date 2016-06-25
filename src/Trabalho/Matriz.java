@@ -10,6 +10,14 @@ public class Matriz {
         cabeca = new Celula(-1, -1, -1, null, null);
     }
 
+    public int getTotalColunas(){
+        return totalColunas;
+    }
+
+    public int getTotalLinhas(){
+        return totalLinhas;
+    }
+
     private void criarMatriz(int linhas, int colunas){
         Celula atual = this.cabeca;
         totalLinhas = linhas;
@@ -97,14 +105,17 @@ public class Matriz {
         }
         return 0;
     }
+
    private void matriz_print2(){
+        Celula atualLinha = this.cabeca;
+
+    private void matriz_print(){
         Celula atualLinha = this.cabeca;
         Celula atualColuna = null;
         Celula proximaColuna = null;
 
         System.out.println(totalLinhas + " " + totalColunas);
         while(atualLinha.getColuna() < totalColunas){
-
             atualLinha = atualLinha.getDireita();
             atualColuna = atualLinha;
             proximaColuna = atualColuna.getAbaixo();
@@ -114,10 +125,10 @@ public class Matriz {
                 atualColuna = atualColuna.getAbaixo();
                 proximaColuna = atualColuna.getAbaixo();
             }
-        }            
+        }
     }
 
-    public void matriz_print() {
+    public void matriz_print2() {
         System.out.println(totalColunas + " " + totalLinhas);
         for (int i = 1; i <= totalLinhas; i++) {
             for (int j = 1; j <= totalColunas; j++) {
@@ -128,25 +139,68 @@ public class Matriz {
         }
     }
 
+
+    public Matriz matriz_adicionar(Matriz a, Matriz b, Matriz resultante){
+        if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
+            resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
+        } else {
+            resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
+        }
+        int i = 1;
+        int j = 1;
+        while (j <= resultante.getTotalColunas()) {
+            resultante.matrizSetElemento(i, j, (a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j)));
+            float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
+            if (i < resultante.getTotalLinhas()) {
+                i++;
+            } else {
+                j++;
+                i = 1;
+            }
+        }
+        System.out.print("Terminou");
+        return resultante;
+    }
+
+    public Matriz matriz_multiplicar(Matriz a, Matriz b, Matriz resultante){
+        if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
+            resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
+        } else {
+            resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
+        }
+        int i = 1;
+        int j = 1;
+        while (j <= resultante.getTotalColunas()) {
+            resultante.matrizSetElemento(i, j, (a.matrizGetElemento(i,j) * b.matrizGetElemento(i,j)));
+            float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
+            if (i < resultante.getTotalLinhas()) {
+                i++;
+            } else {
+                j++;
+                i = 1;
+            }
+        }
+        System.out.print("Terminou");
+        return resultante;
+    }
+
+
     public static void main(String[] args){
         Matriz teste = new Matriz();
+        teste.criarMatriz(4, 4);
 
-        int a = 500;
-        int b = 500;
-
-        teste.criarMatriz(a,b);
-
-        teste.matrizSetElemento(500, 500, 500);
-
-//        for (int i = 1; i <= a; i++){
-//            for (int j = 1; j <= b; j++){
-//                teste.matrizSetElemento(i, j, i*10 + j);
-//            }
-//        }
-
-        long startTime = System.currentTimeMillis();
-        teste.matriz_print();
-        long endTime = System.currentTimeMillis();
-        System.out.println("Demorou " + (endTime - startTime) + " ms.");
+        Matriz a = new Matriz();
+        a.criarMatriz(4, 4);
+        Matriz b = new Matriz();
+        b.criarMatriz(4, 4);
+        for (int i = 1; i <= a.getTotalColunas(); i++) {
+            for (int j = 1; j <= a.getTotalColunas(); j++) {
+                a.matrizSetElemento(i,j, 4);
+                b.matrizSetElemento(i,j, 1);
+            }
+        }
+        Matriz c;
+        c = a.matriz_multiplicar(a, b, teste);
+        c.matriz_print();
     }
 }
