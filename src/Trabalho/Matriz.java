@@ -1,4 +1,4 @@
-package Trabalho;
+//package Trabalho;
 
 public class Matriz {
 
@@ -131,12 +131,12 @@ public class Matriz {
     public static void main(String[] args){
         Matriz teste = new Matriz();
 
-        int a = 500;
-        int b = 500;
+        int a = 4;
+        int b = 4;
 
         teste.criarMatriz(a,b);
 
-        teste.matrizSetElemento(500, 500, 500);
+        teste.matrizSetElemento(4, 4, 500);
 
 //        for (int i = 1; i <= a; i++){
 //            for (int j = 1; j <= b; j++){
