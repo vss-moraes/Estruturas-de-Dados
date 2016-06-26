@@ -18,6 +18,10 @@ public class Matriz {
         return totalLinhas;
     }
 
+    public Celula getCabeca(){
+        return this.cabeca;
+    }
+
     private void criarMatriz(int linhas, int colunas){
         Celula atual = this.cabeca;
         totalLinhas = linhas;
@@ -191,6 +195,25 @@ public class Matriz {
         return resultante;
     }
 
+    public static Matriz matrizTransposta(Matriz original){
+        Matriz resultante = new Matriz();
+        resultante.criarMatriz(original.getTotalColunas(), original.getTotalLinhas());
+
+        Celula linhaAtual = original.getCabeca().getAbaixo();
+        Celula celulaAtual;
+
+        while (!linhaAtual.getAbaixo().equals(original.getCabeca())){
+            celulaAtual = linhaAtual.getDireita();
+            while (!celulaAtual.getDireita().equals(linhaAtual)){
+                resultante.matrizSetElemento(celulaAtual.getColuna(), celulaAtual.getLinha(), celulaAtual.getInfo());
+                celulaAtual = celulaAtual.getDireita();
+            }
+            linhaAtual = linhaAtual.getAbaixo();
+        }
+
+        return resultante;
+    }
+
     public static void main(String[] args){
         Matriz teste = new Matriz();
         teste.criarMatriz(4, 4);
@@ -201,12 +224,16 @@ public class Matriz {
         b.criarMatriz(4, 4);
         for (int i = 1; i <= a.getTotalColunas(); i++) {
             for (int j = 1; j <= a.getTotalColunas(); j++) {
-                a.matrizSetElemento(i,j, 4);
-                b.matrizSetElemento(i,j, 1);
+                a.matrizSetElemento(i,j, i*10+j);
+                b.matrizSetElemento(i,j, i*10+j);
             }
         }
         Matriz c;
         c = a.matriz_multiplicar(a, b, teste);
+//        c.matriz_print();
+
+        c = matrizTransposta(a);
+        a.matriz_print();
         c.matriz_print();
     }
 }
