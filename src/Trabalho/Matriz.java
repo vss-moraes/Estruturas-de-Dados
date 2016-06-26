@@ -1,4 +1,4 @@
-//package Trabalho;
+package Trabalho;
 
 public class Matriz {
 
@@ -136,15 +136,22 @@ public class Matriz {
         }
     }
 
+    // O método pode ser estático, por não utilizar nenhum atributo da classe.
+    // Matriz resultante é desnecessário se você vai retornar uma matriz no fim
+    // do método.
     public Matriz matriz_adicionar(Matriz a, Matriz b, Matriz resultante){
+        // A condição está errada. A soma de matrizes só é possível se as duas forem do mesmo tamanho
         if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
             resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
         } else {
             resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
         }
+        // Por que não usar dois for aninhados? fica mais fácil de ler e vai ter o mesmo número de
+        // iterações.
         int i = 1;
         int j = 1;
         while (j <= resultante.getTotalColunas()) {
+            // Tem que checar se a soma não é 0 antes de adicionar, senão a resultante vai ficar cheia de 0s
             resultante.matrizSetElemento(i, j, (a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j)));
             float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
             if (i < resultante.getTotalLinhas()) {
@@ -158,6 +165,10 @@ public class Matriz {
         return resultante;
     }
 
+
+    // Mesmos comentários da soma em quase tudo.
+    // A forma de calcular a multiplicação de matrizes é bem diferente da soma,
+    // da uma olhada aqui: http://mundoeducacao.bol.uol.com.br/matematica/multiplicacao-matrizes.htm
     public Matriz matriz_multiplicar(Matriz a, Matriz b, Matriz resultante){
         if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
             resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
