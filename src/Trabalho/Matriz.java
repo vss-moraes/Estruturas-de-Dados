@@ -159,24 +159,30 @@ public class Matriz {
     }
 
     public Matriz matriz_multiplicar(Matriz a, Matriz b, Matriz resultante){
-        if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
-            resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
+        if (a.getTotalLinhas() != b.getTotalLinhas() || a.getTotalColunas() != b.getTotalColunas()) {
+            System.out.print("As matrizes não podem ser diferentes!");
         } else {
             resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
-        }
-        int i = 1;
-        int j = 1;
-        while (j <= resultante.getTotalColunas()) {
-            resultante.matrizSetElemento(i, j, (a.matrizGetElemento(i,j) * b.matrizGetElemento(i,j)));
-            float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
-            if (i < resultante.getTotalLinhas()) {
-                i++;
-            } else {
-                j++;
-                i = 1;
+            int i = 1;
+            int j = 1;
+            while (j <= resultante.getTotalColunas()) {
+                resultante.matrizSetElemento(i, j, (a.matrizGetElemento(i, j) * b.matrizGetElemento(i, j)));
+//            float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
+                if (i < resultante.getTotalLinhas()) {
+                    i++;
+                } else {
+                    j++;
+                    i = 1;
+                }
             }
         }
         System.out.print("Terminou");
+        return resultante;
+    }
+
+    public Matriz matriz_transposta(Matriz a, Matriz resultante) {
+        resultante.criarMatriz(a.getTotalColunas(), a.getTotalLinhas());
+        /*Terminar!!!*/
         return resultante;
     }
 
