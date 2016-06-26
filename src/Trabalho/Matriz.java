@@ -1,5 +1,7 @@
 package Trabalho;
 
+import java.util.Scanner;
+
 public class Matriz {
 
     private Celula cabeca;
@@ -41,6 +43,28 @@ public class Matriz {
             atual.setAbaixo(atual);
         }
         atual.setDireita(cabeca);
+    }
+
+    // Ta funcionando pra entradas válidas. Se tiver linha ou coluna igual a 0 da pau.
+    private void lerMatriz(){
+        Scanner leitor = new Scanner(System.in);
+
+        try {
+            this.criarMatriz(leitor.nextInt(), leitor.nextInt());
+
+            int proximo = leitor.nextInt();
+            while (proximo != 0){
+                this.matrizSetElemento(proximo, leitor.nextInt(), leitor.nextFloat());
+                proximo = leitor.nextInt();
+            }
+        } catch (Exception e){
+            System.out.println("Entrada Inválida");
+            leitor.close();
+        }
+
+        leitor.close();
+        this.matriz_print();
+
     }
 
     private void matrizSetElemento (int linha, int coluna, float elemento){
@@ -216,24 +240,26 @@ public class Matriz {
 
     public static void main(String[] args){
         Matriz teste = new Matriz();
-        teste.criarMatriz(4, 4);
-
-        Matriz a = new Matriz();
-        a.criarMatriz(4, 4);
-        Matriz b = new Matriz();
-        b.criarMatriz(4, 4);
-        for (int i = 1; i <= a.getTotalColunas(); i++) {
-            for (int j = 1; j <= a.getTotalColunas(); j++) {
-                a.matrizSetElemento(i,j, i*10+j);
-                b.matrizSetElemento(i,j, i*10+j);
-            }
-        }
-        Matriz c;
-        c = a.matriz_multiplicar(a, b, teste);
+        teste.lerMatriz();
+//
+//        teste.criarMatriz(4, 4);
+//
+//        Matriz a = new Matriz();
+//        a.criarMatriz(4, 4);
+//        Matriz b = new Matriz();
+//        b.criarMatriz(4, 4);
+//        for (int i = 1; i <= a.getTotalColunas(); i++) {
+//            for (int j = 1; j <= a.getTotalColunas(); j++) {
+//                a.matrizSetElemento(i,j, i*10+j);
+//                b.matrizSetElemento(i,j, i*10+j);
+//            }
+//        }
+//        Matriz c;
+//        c = a.matriz_multiplicar(a, b, teste);
+////        c.matriz_print();
+//
+//        c = matrizTransposta(a);
+//        a.matriz_print();
 //        c.matriz_print();
-
-        c = matrizTransposta(a);
-        a.matriz_print();
-        c.matriz_print();
     }
 }
