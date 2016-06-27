@@ -164,6 +164,75 @@ public class Matriz {
         }
     }
 
+    // O método pode ser estático, por não utilizar nenhum atributo da classe.
+    // Matriz resultante é desnecessário se você vai retornar uma matriz no fim
+    // do método.
+    public Matriz matriz_adicionar(Matriz a, Matriz b, Matriz resultante){
+        // A condição está errada. A soma de matrizes só é possível se as duas forem do mesmo tamanho
+        if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
+            resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
+        } else {
+            resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
+        }
+        // Por que não usar dois for aninhados? fica mais fácil de ler e vai ter o mesmo número de
+        // iterações.
+        int i = 1;
+        int j = 1;
+        while (j <= resultante.getTotalColunas()) {
+            // Tem que checar se a soma não é 0 antes de adicionar, senão a resultante vai ficar cheia de 0s
+            resultante.matrizSetElemento(i, j, (a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j)));
+            float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
+            if (i < resultante.getTotalLinhas()) {
+                i++;
+            } else {
+                j++;
+                i = 1;
+            }
+        }
+        System.out.print("Terminou");
+        return resultante;
+    }
+    
+    public static Matriz matriz_multiplicar(Matriz a, Matriz b) {
+        Matriz resultante = new Matriz();
+        Celula atualElementoLinha = a.cabeca;
+        Celula atualElementoColuna = b.cabeca;
+        Celula proximo = null;
+        int i = 1;
+        int j = 1;
+        float result = 0;
+        if (a.getTotalColunas() != b.getTotalColunas()) {
+            System.out.print("As matrizes não podem ser diferentes!");
+        } else {
+            resultante.criarMatriz(a.getTotalLinhas(), b.getTotalColunas());
+            atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
+            atualElementoColuna = atualElementoColuna.getAbaixo().getDireita();
+            while (i <= a.getTotalLinhas() && j <= b.getTotalColunas()) {
+                while (atualElementoLinha.getColuna() != -1) {
+                    float elemLinha = atualElementoLinha.getInfo();
+                    float elemColuna = atualElementoColuna.getInfo();
+                    result += elemLinha * elemColuna;
+                    atualElementoLinha = atualElementoLinha.getDireita();
+                    atualElementoColuna = atualElementoColuna.getAbaixo();
+                }
+                resultante.matrizSetElemento(i, j, result);
+                result = 0;
+                i++;
+                if (i > a.getTotalLinhas()) {
+                    j++;
+                    i = 1;
+                    atualElementoColuna = atualElementoColuna.getDireita().getAbaixo();
+                    atualElementoLinha = atualElementoLinha.getAbaixo().getDireita();
+                    atualElementoLinha = atualElementoLinha.getAbaixo();
+                } else {
+                    atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
+                    atualElementoColuna = atualElementoColuna.getAbaixo();
+                }
+            }
+        }
+        return resultante;
+    }
+
     public static Matriz matrizTransposta(Matriz original){
         Matriz resultante = new Matriz();
         resultante.criarMatriz(original.getTotalColunas(), original.getTotalLinhas());
@@ -206,5 +275,23 @@ public class Matriz {
 //        c = matrizTransposta(a);
 //        a.matriz_print();
 //        c.matriz_print();
+
+        Matriz a = new Matriz();
+        a.criarMatriz(2, 2);
+        Matriz b = new Matriz();
+        b.criarMatriz(2, 2);
+        a.matrizSetElemento(1,1, 2);
+        a.matrizSetElemento(1,2, 3);
+        a.matrizSetElemento(2,1, 4);
+        a.matrizSetElemento(2,2, 5);
+
+        b.matrizSetElemento(1,1, 6);
+        b.matrizSetElemento(1,2, 7);
+        b.matrizSetElemento(2,1, 8);
+        b.matrizSetElemento(2,2, 9);
+
+        Matriz c;
+        c = matriz_multiplicar(a, b);
+        c.matriz_print();
     }
 }
