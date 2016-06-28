@@ -45,15 +45,10 @@ class Celula {
     }
 
     boolean equals(Celula outra){
-        if ((this.linha == outra.getLinha()) && (this.coluna == outra.getColuna()))
-            return true;
-        return false;
+        return (this.linha == outra.getLinha()) && (this.coluna == outra.getColuna());
     }
 
-    @Override
-    public String toString() {
-        String proximaColuna = "\nProximaColuna - Coluna: " + this.getAbaixo().getColuna() + ". Linha: " + this.getAbaixo().getLinha();
-        String proximaLinha = "\nProximaLinha - Coluna: " + this.getDireita().getColuna() + ". Linha: " + this.getDireita().getLinha();
-        return "Coluna: " + this.coluna + ". Linha: " + this.linha + ". Valor: " + this.info + proximaColuna + proximaLinha;
+    boolean isEmpty(){
+        return (this.getDireita() == this || this.getAbaixo()== this);
     }
 }
