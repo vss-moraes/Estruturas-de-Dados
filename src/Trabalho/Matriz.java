@@ -8,7 +8,7 @@ public class Matriz {
     private int totalColunas;
     private int totalLinhas;
 
-    private Matriz(){
+    public Matriz(){
         cabeca = new Celula(-1, -1, -1, null, null);
     }
 
@@ -24,7 +24,7 @@ public class Matriz {
         return this.cabeca;
     }
 
-    private void criarMatriz(int linhas, int colunas){
+    public void criarMatriz(int linhas, int colunas){
         Celula atual = this.cabeca;
         totalLinhas = linhas;
         totalColunas = colunas;
@@ -46,7 +46,7 @@ public class Matriz {
     }
 
     // Ta funcionando pra entradas válidas. Se tiver linha ou coluna igual a 0 da pau.
-    private void lerMatriz(){
+    public void lerMatriz(){
         Scanner leitor = new Scanner(System.in);
 
         try {
@@ -67,7 +67,7 @@ public class Matriz {
 
     }
 
-    private void matrizSetElemento (int linha, int coluna, float elemento){
+    public void matrizSetElemento (int linha, int coluna, float elemento){
         Celula colunaAtual = this.cabeca;
         Celula proxElementoColuna = null;
         Celula linhaAtual = cabeca;
@@ -112,7 +112,7 @@ public class Matriz {
         // System.out.println("Elemento inserido com sucesso.");
     }
 
-    private float matrizGetElemento (int linha, int coluna){
+    public float matrizGetElemento (int linha, int coluna){
         Celula atual = this.cabeca;
         Celula proxima = null;
 
@@ -134,7 +134,7 @@ public class Matriz {
         return 0;
     }
 
-    private void matriz_print(){
+    public void matriz_print(){
         Celula atualLinha = this.cabeca;
         Celula atualColuna = null;
         Celula proximaColuna = null;
@@ -197,11 +197,10 @@ public class Matriz {
         Matriz resultante = new Matriz();
         Celula atualElementoLinha = a.cabeca;
         Celula atualElementoColuna = b.cabeca;
-        Celula proximo = null;
         int i = 1;
         int j = 1;
         float result = 0;
-        if (a.getTotalColunas() != b.getTotalColunas()) {
+        if (a.getTotalLinhas() != b.getTotalColunas() || a.getTotalColunas() != b.getTotalLinhas()) {
             System.out.print("As matrizes não podem ser diferentes!");
         } else {
             resultante.criarMatriz(a.getTotalLinhas(), b.getTotalColunas());
@@ -233,6 +232,23 @@ public class Matriz {
         return resultante;
     }
 
+    // Recebe a cabeca de duas listas e retorna a soma da multiplicação dos elementos
+    private static float multiplicaLista(Celula cabecaLinha, Celula cabecaColuna){
+        if (cabecaLinha.isEmpty() || cabecaColuna.isEmpty())
+            return 0;
+        else {
+            Celula elementoLinhaAtual = cabecaLinha.getDireita();
+            Celula elementoColunaAtual = cabecaColuna.getAbaixo();
+            float resultado = 0;
+            while (elementoColunaAtual.getLinha() != -1 && elementoLinhaAtual.getColuna() != -1){
+                resultado += elementoLinhaAtual.getInfo() * elementoColunaAtual.getInfo();
+                elementoColunaAtual = elementoColunaAtual.getAbaixo();
+                elementoLinhaAtual = elementoLinhaAtual.getDireita();
+            }
+            return resultado;
+        }
+    }
+
     public static Matriz matrizTransposta(Matriz original){
         Matriz resultante = new Matriz();
         resultante.criarMatriz(original.getTotalColunas(), original.getTotalLinhas());
@@ -250,48 +266,5 @@ public class Matriz {
         }
 
         return resultante;
-    }
-
-    public static void main(String[] args){
-        Matriz teste = new Matriz();
-        teste.lerMatriz();
-//
-//        teste.criarMatriz(4, 4);
-//
-//        Matriz a = new Matriz();
-//        a.criarMatriz(4, 4);
-//        Matriz b = new Matriz();
-//        b.criarMatriz(4, 4);
-//        for (int i = 1; i <= a.getTotalColunas(); i++) {
-//            for (int j = 1; j <= a.getTotalColunas(); j++) {
-//                a.matrizSetElemento(i,j, i*10+j);
-//                b.matrizSetElemento(i,j, i*10+j);
-//            }
-//        }
-//        Matriz c;
-//        c = a.matriz_multiplicar(a, b, teste);
-////        c.matriz_print();
-//
-//        c = matrizTransposta(a);
-//        a.matriz_print();
-//        c.matriz_print();
-
-        Matriz a = new Matriz();
-        a.criarMatriz(2, 2);
-        Matriz b = new Matriz();
-        b.criarMatriz(2, 2);
-        a.matrizSetElemento(1,1, 2);
-        a.matrizSetElemento(1,2, 3);
-        a.matrizSetElemento(2,1, 4);
-        a.matrizSetElemento(2,2, 5);
-
-        b.matrizSetElemento(1,1, 6);
-        b.matrizSetElemento(1,2, 7);
-        b.matrizSetElemento(2,1, 8);
-        b.matrizSetElemento(2,2, 9);
-
-        Matriz c;
-        c = matriz_multiplicar(a, b);
-        c.matriz_print();
     }
 }
