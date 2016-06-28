@@ -1,4 +1,4 @@
-package Trabalho;
+//package Trabalho;
 
 import java.util.Scanner;
 
@@ -140,18 +140,18 @@ public class Matriz {
         Celula proximaColuna = null;
 
         System.out.println(totalLinhas + " " + totalColunas);
-        while(atualLinha.getColuna() < totalColunas){
+        while(atualLinha.getColuna() < totalColunas) {
             atualLinha = atualLinha.getDireita();
             atualColuna = atualLinha;
             proximaColuna = atualColuna.getAbaixo();
-
-            while(!atualLinha.equals(proximaColuna)){
+            while (!atualLinha.equals(proximaColuna)) {
                 System.out.println(proximaColuna.getLinha() + " " + proximaColuna.getColuna() + " " + proximaColuna.getInfo());
                 atualColuna = atualColuna.getAbaixo();
                 proximaColuna = atualColuna.getAbaixo();
             }
         }
     }
+
 
     public void matriz_print2() {
         System.out.println(totalColunas + " " + totalLinhas);
@@ -192,41 +192,48 @@ public class Matriz {
         System.out.print("Terminou");
         return resultante;
     }
-    
+
     public static Matriz matriz_multiplicar(Matriz a, Matriz b) {
         Matriz resultante = new Matriz();
         Celula atualElementoLinha = a.cabeca;
         Celula atualElementoColuna = b.cabeca;
         int i = 1;
         int j = 1;
-        float result = 0;
-        if (a.getTotalLinhas() != b.getTotalColunas() || a.getTotalColunas() != b.getTotalLinhas()) {
+        // float result = 0;
+        if (a.getTotalColunas() != b.getTotalLinhas()) {
             System.out.print("As matrizes não podem ser diferentes!");
         } else {
             resultante.criarMatriz(a.getTotalLinhas(), b.getTotalColunas());
-            atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
-            atualElementoColuna = atualElementoColuna.getAbaixo().getDireita();
+            // atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
+            // atualElementoColuna = atualElementoColuna.getAbaixo().getDireita();
             while (i <= a.getTotalLinhas() && j <= b.getTotalColunas()) {
-                while (atualElementoLinha.getColuna() != -1) {
-                    float elemLinha = atualElementoLinha.getInfo();
-                    float elemColuna = atualElementoColuna.getInfo();
-                    result += elemLinha * elemColuna;
-                    atualElementoLinha = atualElementoLinha.getDireita();
-                    atualElementoColuna = atualElementoColuna.getAbaixo();
-                }
-                resultante.matrizSetElemento(i, j, result);
-                result = 0;
-                i++;
+                resultante.matrizSetElemento(i, j, multiplicaLista(a.cabeca, b.cabeca));
                 if (i > a.getTotalLinhas()) {
                     j++;
                     i = 1;
-                    atualElementoColuna = atualElementoColuna.getDireita().getAbaixo();
-                    atualElementoLinha = atualElementoLinha.getAbaixo().getDireita();
-                    atualElementoLinha = atualElementoLinha.getAbaixo();
                 } else {
-                    atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
-                    atualElementoColuna = atualElementoColuna.getAbaixo();
+                    i++;
                 }
+                //     while (atualElementoLinha.getColuna() != -1) {
+                //         float elemLinha = atualElementoLinha.getInfo();
+                //         float elemColuna = atualElementoColuna.getInfo();
+                //         result += elemLinha * elemColuna;
+                //         atualElementoLinha = atualElementoLinha.getDireita();
+                //         atualElementoColuna = atualElementoColuna.getAbaixo();
+                //     }
+                //     resultante.matrizSetElemento(i, j, result);
+                //     result = 0;
+                //     i++;
+                //     if (i > a.getTotalLinhas()) {
+                //         j++;
+                //         i = 1;
+                //         atualElementoColuna = atualElementoColuna.getDireita().getAbaixo();
+                //         atualElementoLinha = atualElementoLinha.getAbaixo().getDireita();
+                //         atualElementoLinha = atualElementoLinha.getAbaixo();
+                //     } else {
+                //         atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
+                //         atualElementoColuna = atualElementoColuna.getAbaixo();
+                //     }
             }
         }
         return resultante;
