@@ -148,21 +148,16 @@ public class Matriz {
         } else {
             resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
         }
-        int i = 1;
-        int j = 1;
-        while (j <= resultante.getTotalColunas()) {
-            float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
-            if (h != 0)
-                resultante.matrizSetElemento(i, j, h);
-            if (i < resultante.getTotalLinhas()) {
-                i++;
-            } else {
-                j++;
-                i = 1;
+        for(int j = 1; j <= resultante.getTotalColunas(); j++) {
+            for (int i = 1; i <= resultante.getTotalLinhas(); i++) {
+                float h = a.matrizGetElemento(i, j) + b.matrizGetElemento(i, j);
+                if (h != 0)
+                    resultante.matrizSetElemento(i, j, h);
             }
         }
         return resultante;
     }
+    
     public static Matriz matrizMultiplicar(Matriz a, Matriz b){
         Matriz resultado = new Matriz();
         Celula linhaAtual = a.getCabeca().getAbaixo();
