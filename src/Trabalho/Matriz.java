@@ -1,4 +1,4 @@
-//package Trabalho;
+package Trabalho;
 
 import java.util.Scanner;
 
@@ -45,13 +45,10 @@ public class Matriz {
         atual.setDireita(cabeca);
     }
 
-    // Ta funcionando pra entradas válidas. Se tiver linha ou coluna igual a 0 da pau.
     public void lerMatriz(){
         Scanner leitor = new Scanner(System.in);
-
         try {
             this.criarMatriz(leitor.nextInt(), leitor.nextInt());
-
             int proximo = leitor.nextInt();
             while (proximo != 0){
                 this.matrizSetElemento(proximo, leitor.nextInt(), leitor.nextFloat());
@@ -61,10 +58,7 @@ public class Matriz {
             System.out.println("Entrada Inválida");
             leitor.close();
         }
-
         leitor.close();
-        this.matriz_print();
-
     }
 
     public void matrizSetElemento (int linha, int coluna, float elemento){
@@ -84,8 +78,7 @@ public class Matriz {
         proxElementoColuna = colunaAtual.getAbaixo();
         proxElementoLinha = linhaAtual.getDireita();
 
-        //Verifica se a coluna atual está vazia
-        if (colunaAtual.equals(proxElementoColuna)){
+        if (colunaAtual.isEmpty()){
             colunaAtual.setAbaixo(nova);
             nova.setAbaixo(colunaAtual);
         } else {
@@ -97,8 +90,7 @@ public class Matriz {
             nova.setAbaixo(proxElementoColuna);
         }
 
-        //Verifica se a linha atual está vazia
-        if (linhaAtual.equals(proxElementoLinha)){
+        if (linhaAtual.isEmpty()){
             linhaAtual.setDireita(nova);
             nova.setDireita(linhaAtual);
         } else {
@@ -109,7 +101,6 @@ public class Matriz {
             linhaAtual.setDireita(nova);
             nova.setDireita(proxElementoLinha);
         }
-        // System.out.println("Elemento inserido com sucesso.");
     }
 
     public float matrizGetElemento (int linha, int coluna){
@@ -134,54 +125,35 @@ public class Matriz {
         return 0;
     }
 
-    public void matriz_print(){
-        Celula atualLinha = this.cabeca;
-        Celula atualColuna = null;
-        Celula proximaColuna = null;
+    public void imprimirMatriz(){
+        Celula atualLinha = this.cabeca.getAbaixo();
+        Celula elemento = atualLinha.getDireita();
 
         System.out.println(totalLinhas + " " + totalColunas);
-        while(atualLinha.getColuna() < totalColunas) {
-            atualLinha = atualLinha.getDireita();
-            atualColuna = atualLinha;
-            proximaColuna = atualColuna.getAbaixo();
-            while (!atualLinha.equals(proximaColuna)) {
-                System.out.println(proximaColuna.getLinha() + " " + proximaColuna.getColuna() + " " + proximaColuna.getInfo());
-                atualColuna = atualColuna.getAbaixo();
-                proximaColuna = atualColuna.getAbaixo();
+        while (atualLinha.getLinha() != -1){
+            while (elemento != atualLinha) {
+                System.out.println(elemento.getLinha() + " " + elemento.getColuna() + " " + elemento.getInfo());
+                elemento = elemento.getDireita();
             }
+            atualLinha = atualLinha.getAbaixo();
+            elemento = atualLinha.getDireita();
         }
+        System.out.println(0);
     }
 
-
-    public void matriz_print2() {
-        System.out.println(totalColunas + " " + totalLinhas);
-        for (int i = 1; i <= totalLinhas; i++) {
-            for (int j = 1; j <= totalColunas; j++) {
-                if (this.matrizGetElemento(i, j) != 0) {
-                    System.out.println(i + " " + j + " " + this.matrizGetElemento(i, j));
-                }
-            }
-        }
-    }
-
-    // O método pode ser estático, por não utilizar nenhum atributo da classe.
-    // Matriz resultante é desnecessário se você vai retornar uma matriz no fim
-    // do método.
-    public Matriz matriz_adicionar(Matriz a, Matriz b, Matriz resultante){
-        // A condição está errada. A soma de matrizes só é possível se as duas forem do mesmo tamanho
+    public static Matriz matrizAdicionar(Matriz a, Matriz b){
+        Matriz resultante = new Matriz();
         if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
             resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
         } else {
             resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
         }
-        // Por que não usar dois for aninhados? fica mais fácil de ler e vai ter o mesmo número de
-        // iterações.
         int i = 1;
         int j = 1;
         while (j <= resultante.getTotalColunas()) {
-            // Tem que checar se a soma não é 0 antes de adicionar, senão a resultante vai ficar cheia de 0s
-            resultante.matrizSetElemento(i, j, (a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j)));
             float h = a.matrizGetElemento(i,j) + b.matrizGetElemento(i,j);
+            if (h != 0)
+                resultante.matrizSetElemento(i, j, h);
             if (i < resultante.getTotalLinhas()) {
                 i++;
             } else {
@@ -189,64 +161,38 @@ public class Matriz {
                 i = 1;
             }
         }
-        System.out.print("Terminou");
         return resultante;
     }
-
-    public static Matriz matriz_multiplicar(Matriz a, Matriz b) {
-        Matriz resultante = new Matriz();
-        Celula atualElementoLinha = a.cabeca;
-        Celula atualElementoColuna = b.cabeca;
-        int i = 1;
-        int j = 1;
-        // float result = 0;
-        if (a.getTotalColunas() != b.getTotalLinhas()) {
+    public static Matriz matrizMultiplicar(Matriz a, Matriz b){
+        Matriz resultado = new Matriz();
+        Celula linhaAtual = a.getCabeca().getAbaixo();
+        Celula colunaAtual = b.getCabeca().getDireita();
+        if (a.getTotalLinhas() != b.getTotalColunas() || a.getTotalColunas() != b.getTotalLinhas()) {
             System.out.print("As matrizes não podem ser diferentes!");
+            return null;
         } else {
-            resultante.criarMatriz(a.getTotalLinhas(), b.getTotalColunas());
-            // atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
-            // atualElementoColuna = atualElementoColuna.getAbaixo().getDireita();
-            while (i <= a.getTotalLinhas() && j <= b.getTotalColunas()) {
-                resultante.matrizSetElemento(i, j, multiplicaLista(a.cabeca, b.cabeca));
-                if (i > a.getTotalLinhas()) {
-                    j++;
-                    i = 1;
-                } else {
-                    i++;
+            resultado.criarMatriz(a.getTotalLinhas(), b.getTotalColunas());
+            for (int i = 1; i <= a.getTotalLinhas(); i++){
+                for (int j = 1; j<= b.getTotalColunas(); j++){
+                        float info = multiplicaListas(linhaAtual, colunaAtual);
+                    if (info != 0)
+                        resultado.matrizSetElemento(i, j, info);
+                    colunaAtual = colunaAtual.getDireita();
                 }
-                //     while (atualElementoLinha.getColuna() != -1) {
-                //         float elemLinha = atualElementoLinha.getInfo();
-                //         float elemColuna = atualElementoColuna.getInfo();
-                //         result += elemLinha * elemColuna;
-                //         atualElementoLinha = atualElementoLinha.getDireita();
-                //         atualElementoColuna = atualElementoColuna.getAbaixo();
-                //     }
-                //     resultante.matrizSetElemento(i, j, result);
-                //     result = 0;
-                //     i++;
-                //     if (i > a.getTotalLinhas()) {
-                //         j++;
-                //         i = 1;
-                //         atualElementoColuna = atualElementoColuna.getDireita().getAbaixo();
-                //         atualElementoLinha = atualElementoLinha.getAbaixo().getDireita();
-                //         atualElementoLinha = atualElementoLinha.getAbaixo();
-                //     } else {
-                //         atualElementoLinha = atualElementoLinha.getDireita().getAbaixo();
-                //         atualElementoColuna = atualElementoColuna.getAbaixo();
-                //     }
+                linhaAtual = linhaAtual.getAbaixo();
             }
         }
-        return resultante;
+        return resultado;
     }
 
-    // Recebe a cabeca de duas listas e retorna a soma da multiplicação dos elementos
-    private static float multiplicaLista(Celula cabecaLinha, Celula cabecaColuna){
+    private static float multiplicaListas(Celula cabecaLinha, Celula cabecaColuna){
         if (cabecaLinha.isEmpty() || cabecaColuna.isEmpty())
             return 0;
         else {
             Celula elementoLinhaAtual = cabecaLinha.getDireita();
             Celula elementoColunaAtual = cabecaColuna.getAbaixo();
             float resultado = 0;
+            //Método faz a multiplicação independente da posição dos elementos. TODO: Corrigir essa merda.
             while (elementoColunaAtual.getLinha() != -1 && elementoLinhaAtual.getColuna() != -1){
                 resultado += elementoLinhaAtual.getInfo() * elementoColunaAtual.getInfo();
                 elementoColunaAtual = elementoColunaAtual.getAbaixo();
@@ -271,7 +217,6 @@ public class Matriz {
             }
             linhaAtual = linhaAtual.getAbaixo();
         }
-
         return resultante;
     }
 }
