@@ -169,11 +169,12 @@ public class Matriz {
             resultado.criarMatriz(a.getTotalLinhas(), b.getTotalColunas());
             for (int i = 1; i <= a.getTotalLinhas(); i++){
                 for (int j = 1; j<= b.getTotalColunas(); j++){
-                        float info = multiplicaListas(linhaAtual, colunaAtual);
+                    float info = multiplicaListas(linhaAtual, colunaAtual);
                     if (info != 0)
                         resultado.matrizSetElemento(i, j, info);
                     colunaAtual = colunaAtual.getDireita();
                 }
+                colunaAtual = b.getCabeca().getDireita();
                 linhaAtual = linhaAtual.getAbaixo();
             }
         }
@@ -187,11 +188,17 @@ public class Matriz {
             Celula elementoLinhaAtual = cabecaLinha.getDireita();
             Celula elementoColunaAtual = cabecaColuna.getAbaixo();
             float resultado = 0;
-            //Método faz a multiplicação independente da posição dos elementos. TODO: Corrigir essa merda.
+
             while (elementoColunaAtual.getLinha() != -1 && elementoLinhaAtual.getColuna() != -1){
-                resultado += elementoLinhaAtual.getInfo() * elementoColunaAtual.getInfo();
-                elementoColunaAtual = elementoColunaAtual.getAbaixo();
-                elementoLinhaAtual = elementoLinhaAtual.getDireita();
+                if (elementoLinhaAtual.getColuna() == elementoColunaAtual.getLinha()) {
+                    resultado += elementoLinhaAtual.getInfo() * elementoColunaAtual.getInfo();
+                    elementoColunaAtual = elementoColunaAtual.getAbaixo();
+                    elementoLinhaAtual = elementoLinhaAtual.getDireita();
+                } else if (elementoLinhaAtual.getColuna() < elementoColunaAtual.getLinha()){
+                    elementoLinhaAtual = elementoLinhaAtual.getDireita();
+                } else {
+                    elementoColunaAtual = elementoColunaAtual.getAbaixo();
+                }
             }
             return resultado;
         }
