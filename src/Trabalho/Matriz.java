@@ -10,6 +10,7 @@ public class Matriz {
 
     public Matriz(){
         cabeca = new Celula(-1, -1, -1, null, null);
+        lerMatriz();
     }
 
     public int getTotalColunas(){
