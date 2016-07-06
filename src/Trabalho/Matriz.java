@@ -13,16 +13,9 @@ public class Matriz {
         lerMatriz();
     }
 
-    public int getTotalColunas(){
-        return totalColunas;
-    }
-
-    public int getTotalLinhas(){
-        return totalLinhas;
-    }
-
-    public Celula getCabeca(){
-        return this.cabeca;
+    public Matriz(int linhas, int colunas){
+        cabeca = new Celula(-1, -1, -1, null, null);
+        criarMatriz(linhas, colunas);
     }
 
     public void criarMatriz(int linhas, int colunas){
@@ -47,19 +40,31 @@ public class Matriz {
     }
 
     public void lerMatriz(){
+        System.out.println("Dados da Matriz:");
         Scanner leitor = new Scanner(System.in);
         try {
-            this.criarMatriz(leitor.nextInt(), leitor.nextInt());
+            int linhas = leitor.nextInt();
+            int colunas = leitor.nextInt();
+            this.criarMatriz(linhas, colunas);
             int proximo = leitor.nextInt();
             while (proximo != 0){
                 this.matrizSetElemento(proximo, leitor.nextInt(), leitor.nextFloat());
                 proximo = leitor.nextInt();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Entrada Inválida");
-            leitor.close();
         }
-        leitor.close();
+//        int i, j;
+//        float val;
+//        do {
+//            i = leitor.nextInt();
+//            if (i != 0) {
+//                j = leitor.nextInt();
+//                val = leitor.nextFloat();
+//                this.matrizSetElemento(i, j, val);
+//            }
+//        } while (i != 0);
+//        leitor.close();
     }
 
     public void matrizSetElemento (int linha, int coluna, float elemento){
@@ -143,11 +148,11 @@ public class Matriz {
     }
 
     public static Matriz matrizAdicionar(Matriz a, Matriz b){
-        Matriz resultante = new Matriz();
+        Matriz resultante;
         if (a.getTotalLinhas() <= b.getTotalLinhas() || a.getTotalColunas() <= b.getTotalColunas()) {
-            resultante.criarMatriz(b.getTotalLinhas(), b.getTotalColunas());
+            resultante = new Matriz(b.getTotalLinhas(), b.getTotalColunas());
         } else {
-            resultante.criarMatriz(a.getTotalLinhas(), a.getTotalColunas());
+            resultante = new Matriz(a.getTotalLinhas(), a.getTotalColunas());
         }
         for(int j = 1; j <= resultante.getTotalColunas(); j++) {
             for (int i = 1; i <= resultante.getTotalLinhas(); i++) {
@@ -158,16 +163,16 @@ public class Matriz {
         }
         return resultante;
     }
-    
+
     public static Matriz matrizMultiplicar(Matriz a, Matriz b){
-        Matriz resultado = new Matriz();
+        Matriz resultado;
         Celula linhaAtual = a.getCabeca().getAbaixo();
         Celula colunaAtual = b.getCabeca().getDireita();
         if (a.getTotalLinhas() != b.getTotalColunas() || a.getTotalColunas() != b.getTotalLinhas()) {
             System.out.print("As matrizes não podem ser diferentes!");
             return null;
         } else {
-            resultado.criarMatriz(a.getTotalLinhas(), b.getTotalColunas());
+            resultado = new Matriz(a.getTotalLinhas(), b.getTotalColunas());
             for (int i = 1; i <= a.getTotalLinhas(); i++){
                 for (int j = 1; j<= b.getTotalColunas(); j++){
                     float info = multiplicaListas(linhaAtual, colunaAtual);
@@ -206,8 +211,7 @@ public class Matriz {
     }
 
     public static Matriz matrizTransposta(Matriz original){
-        Matriz resultante = new Matriz();
-        resultante.criarMatriz(original.getTotalColunas(), original.getTotalLinhas());
+        Matriz resultante = new Matriz(original.getTotalColunas(), original.getTotalLinhas());
 
         Celula linhaAtual = original.getCabeca().getAbaixo();
         Celula celulaAtual;
@@ -221,5 +225,17 @@ public class Matriz {
             linhaAtual = linhaAtual.getAbaixo();
         }
         return resultante;
+    }
+
+    public int getTotalColunas(){
+        return totalColunas;
+    }
+
+    public int getTotalLinhas(){
+        return totalLinhas;
+    }
+
+    public Celula getCabeca(){
+        return this.cabeca;
     }
 }
